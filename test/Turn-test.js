@@ -77,4 +77,13 @@ describe('Turns', function() {
     expect(turn.card).to.deep.equal(card)
     expect(turn.giveFeedback(), 'incorrect!')
   });
+
+  it('should give feedback if the user\'s guess is correct', function() {
+    const card = new Card(2,'What is Casey\'s favorite color?', ['blue', 'pink', 'orange'], 'orange');
+    const turn = new Turn('orange', card);
+
+    expect(turn.guess).to.deep.equal('orange')
+    expect(turn.card).to.deep.equal(card)
+    expect(turn.giveFeedback(), 'correct!')
+  });
 });
