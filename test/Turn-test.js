@@ -1,6 +1,8 @@
 const chai = require('chai');
 const expect = chai.expect;
 
+const Card = require('../src/Card');
+
 describe('Turns', function() {
 
   it('should be a function', function() {
@@ -8,11 +10,14 @@ describe('Turns', function() {
     expect(Turn).to.be.a('function')
   });
 
-  it('should be an instance of Turn', fuction() {
+  it('should be an instance of Turn', function() {
     const turn = new Turn();
-
-    expect(Turn).to.be.an.instanceof(Turn);
+    expect(turn).to.be.an.instanceof(Turn)
   });
 
-   //with an argument to represent a user\'s guess to the question
+  it('should be able to store the user\'s guess for the question', function() {
+    const card = new Card(2,'What is Casey\'s favorite color?', ['blue', 'pink', 'orange'], 'orange');
+    const turn = new Turn('blue');
+    expect(turn.guess).to.deep.equal('blue')
+  });
 });
