@@ -20,4 +20,11 @@ describe('Turns', function() {
     const turn = new Turn('blue');
     expect(turn.guess).to.deep.equal('blue')
   });
+
+  it('should be able to store the user\'s guess for the question', function() {
+    const card = new Card(2,'What is Casey\'s favorite color?', ['blue', 'pink', 'orange'], 'orange');
+    const turn = new Turn('blue', card);
+    expect(turn.guess).to.deep.equal('blue')
+    expect(turn.currentCard).to.deep.equal(card)
+  });
 });
