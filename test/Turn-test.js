@@ -30,7 +30,7 @@ describe('Turns', function() {
     const turn = new Turn('blue', card);
 
     expect(turn.guess).to.deep.equal('blue')
-    expect(turn.currentCard).to.deep.equal(card)
+    expect(turn.card).to.deep.equal(card)
   });
 
   it('should be able to returns the user\'s guess for the question', function() {
@@ -38,7 +38,7 @@ describe('Turns', function() {
     const turn = new Turn('blue', card);
 
     expect(turn.guess).to.deep.equal('blue')
-    expect(turn.currentCard).to.deep.equal(card)
+    expect(turn.card).to.deep.equal(card)
     expect(turn.returnGuess(), 'blue')
   });
 
@@ -47,7 +47,7 @@ describe('Turns', function() {
     const turn = new Turn('blue', card);
 
     expect(turn.guess).to.deep.equal('blue')
-    expect(turn.currentCard).to.deep.equal(card)
+    expect(turn.card).to.deep.equal(card)
     expect(turn.returnCard(), card)
   });
 
@@ -56,7 +56,7 @@ describe('Turns', function() {
     const turn = new Turn('blue', card);
 
     expect(turn.guess).to.deep.equal('blue')
-    expect(turn.currentCard).to.deep.equal(card)
+    expect(turn.card).to.deep.equal(card)
     expect(turn.evaluateGuess(), false)
   });
 });
