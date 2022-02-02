@@ -41,4 +41,13 @@ describe('Turns', function() {
     expect(turn.currentCard).to.deep.equal(card)
     expect(turn.returnGuess(), 'blue')
   });
+
+  it('should be able to returns the current card', function() {
+    const card = new Card(2,'What is Casey\'s favorite color?', ['blue', 'pink', 'orange'], 'orange');
+    const turn = new Turn('blue', card);
+
+    expect(turn.guess).to.deep.equal('blue')
+    expect(turn.currentCard).to.deep.equal(card)
+    expect(turn.returnCard(), card)
+  });
 });
