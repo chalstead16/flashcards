@@ -4,7 +4,11 @@ class Turn {
     this.currentCard = currentCard;
   }
 
-  returnGuess(){
+  returnGuess() {
+    return this.guess;
+  }
+
+  returnCard() {
     return this.guess;
   }
 }
