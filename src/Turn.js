@@ -9,14 +9,21 @@ class Turn {
   }
 
   returnCard() {
-    return this.guess;
+    return this.card;
   }
 
   evaluateGuess() {
     if (this.guess === this.card.correctAnswer) {
       return true;
     }
-    return false;
+      return false;
+  }
+
+  giveFeedback() {
+    if (this.guess === this.card.correctAnswer) {
+      return 'correct!';
+    }
+      return 'incorrect!';
   }
 }
 
