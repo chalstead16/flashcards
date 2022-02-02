@@ -24,8 +24,15 @@ describe('Turns', function() {
     expect(turn.guess).to.be.equal('blue')
   });
 
+  it('should have a property for the current card', function() {
+    const card = new Card(2,'What is Casey\'s favorite color?', ['blue', 'pink', 'orange'], 'orange');
+    const turn = new Turn('blue', card);
+
+    expect(turn.card).to.be.equal(card)
+  });
+
   it('should be able to store the user\'s guess for the question', function() {
-    // const card = new Card(2,'What is Casey\'s favorite color?', ['blue', 'pink', 'orange'], 'orange');
+    const card = new Card(2,'What is Casey\'s favorite color?', ['blue', 'pink', 'orange'], 'orange');
     const turn = new Turn('blue');
 
     expect(turn.guess).to.equal('blue');
