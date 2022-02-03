@@ -1,3 +1,6 @@
+const chai = require('chai');
+const expect = chai.expect;
+
 const Card = require('../src/Card');
 const Deck = require('../src/Deck');
 const Turn = require('../src/Turn');
@@ -6,13 +9,21 @@ const Round = require('../src/Round');
 describe('Round', function() {
 
   it('should be a function', function() {
-    const round = new Round();
+    const cardOne = new Card(1,'What is Casey\'s favorite color?', ['blue', 'pink', 'orange'], 'orange');
+    const cardTwo = new Card(2, 'What is Casey\'s favorite season?', ['winter', 'summer', 'autumn'], 'autumn');
+    const cardThree = new Card(3, 'What is Casey\'s favorite food?', ['the limit does not exist', 'meatballs', 'sushi'], 'the limit does not exist');
+    const deck = new Deck([cardOne, cardTwo, cardThree]);
+    const round = new Round(deck);
 
     expect(Round).to.be.a('function');
   });
 
   it('should be an instance of Round', function() {
-    const round = new Round();
+    const cardOne = new Card(1,'What is Casey\'s favorite color?', ['blue', 'pink', 'orange'], 'orange');
+    const cardTwo = new Card(2, 'What is Casey\'s favorite season?', ['winter', 'summer', 'autumn'], 'autumn');
+    const cardThree = new Card(3, 'What is Casey\'s favorite food?', ['the limit does not exist', 'meatballs', 'sushi'], 'the limit does not exist');
+    const deck = new Deck([cardOne, cardTwo, cardThree]);
+    const round = new Round(deck);
 
     expect(round).to.be.an.instanceof(Round);
   });
@@ -24,7 +35,17 @@ describe('Round', function() {
     const deck = new Deck([cardOne, cardTwo, cardThree]);
     const round = new Round(deck);
 
-    expect(round.deck).to.equal([cardOne, cardTwo, cardThree]);
+    expect(round.deck).to.equal(deck.cards);
+  });
+
+  it('should have a way to return the current card', function() {
+    const cardOne = new Card(1,'What is Casey\'s favorite color?', ['blue', 'pink', 'orange'], 'orange');
+    const cardTwo = new Card(2, 'What is Casey\'s favorite season?', ['winter', 'summer', 'autumn'], 'autumn');
+    const cardThree = new Card(3, 'What is Casey\'s favorite food?', ['the limit does not exist', 'meatballs', 'sushi'], 'the limit does not exist');
+    const deck = new Deck([cardOne, cardTwo, cardThree]);
+    const round = new Round(deck);
+
+    expect(round.returnCurrentCard()).to.equal(cardOne);
   });
 
   it('should have a property to track the turns count', function() {
@@ -37,42 +58,31 @@ describe('Round', function() {
     expect(round.turns).to.equal(0);
   });
 
-  it('should have a way to return the current card', function() {
+  it('should update turn regardless if the guess is correct or incorrect', function() {
     const cardOne = new Card(1,'What is Casey\'s favorite color?', ['blue', 'pink', 'orange'], 'orange');
     const cardTwo = new Card(2, 'What is Casey\'s favorite season?', ['winter', 'summer', 'autumn'], 'autumn');
     const cardThree = new Card(3, 'What is Casey\'s favorite food?', ['the limit does not exist', 'meatballs', 'sushi'], 'the limit does not exist');
     const deck = new Deck([cardOne, cardTwo, cardThree]);
     const round = new Round(deck);
 
-    expect(round.returnCurrentCard()).to.equal(round.deck[0]);
-  });
-
-  it('should create a new turn instance when a guess is made' function() {
-    const cardOne = new Card(1,'What is Casey\'s favorite color?', ['blue', 'pink', 'orange'], 'orange');
-    const cardTwo = new Card(2, 'What is Casey\'s favorite season?', ['winter', 'summer', 'autumn'], 'autumn');
-    const cardThree = new Card(3, 'What is Casey\'s favorite food?', ['the limit does not exist', 'meatballs', 'sushi'], 'the limit does not exist');
-    const deck = new Deck([cardOne, cardTwo, cardThree]);
-    const round = new Round(deck);
-    const turn = new Turn('pink', round.deck.cards[0])
-
-    round.takeTurn('pink');
-
-    expect(round.currentTurn)to.equal(Turn);
-  });
-
-  it('should have a way to update turn regardless if the guess is correct or incorrect', function() {
-    const cardOne = new Card(1,'What is Casey\'s favorite color?', ['blue', 'pink', 'orange'], 'orange');
-    const cardTwo = new Card(2, 'What is Casey\'s favorite season?', ['winter', 'summer', 'autumn'], 'autumn');
-    const cardThree = new Card(3, 'What is Casey\'s favorite food?', ['the limit does not exist', 'meatballs', 'sushi'], 'the limit does not exist');
-    const deck = new Deck([cardOne, cardTwo, cardThree]);
-    const round = new Round(deck);
-
-    round.takeTurn('pink');
+    round.takeTurn();
 
     expect(round.turns).to.equal(1);
   });
 
-  it('should update the current card when a guess is made', function() {
+  it('should create a new turn instance', function() {
+    const cardOne = new Card(1,'What is Casey\'s favorite color?', ['blue', 'pink', 'orange'], 'orange');
+    const cardTwo = new Card(2, 'What is Casey\'s favorite season?', ['winter', 'summer', 'autumn'], 'autumn');
+    const cardThree = new Card(3, 'What is Casey\'s favorite food?', ['the limit does not exist', 'meatballs', 'sushi'], 'the limit does not exist');
+    const deck = new Deck([cardOne, cardTwo, cardThree]);
+    const round = new Round(deck);
+
+    round.takeTurn();
+
+    expect(round.currentTurn).to.be.an.instanceOf(Turn);
+  });
+
+  it('should add incorrect guesses to an incorrect answer array', function() {
     const cardOne = new Card(1,'What is Casey\'s favorite color?', ['blue', 'pink', 'orange'], 'orange');
     const cardTwo = new Card(2, 'What is Casey\'s favorite season?', ['winter', 'summer', 'autumn'], 'autumn');
     const cardThree = new Card(3, 'What is Casey\'s favorite food?', ['the limit does not exist', 'meatballs', 'sushi'], 'the limit does not exist');
@@ -81,34 +91,42 @@ describe('Round', function() {
 
     round.takeTurn('pink');
 
-    expect(round.currentCard).to.equal(2);
+    expect(round.incorrectAnswers[0]).to.equal(cardOne);
   });
 
-  it('should add incorrect gueses to an incorrect answer array', function() {
+  it('should provide feedback for incorrect guesses', function() {
     const cardOne = new Card(1,'What is Casey\'s favorite color?', ['blue', 'pink', 'orange'], 'orange');
     const cardTwo = new Card(2, 'What is Casey\'s favorite season?', ['winter', 'summer', 'autumn'], 'autumn');
     const cardThree = new Card(3, 'What is Casey\'s favorite food?', ['the limit does not exist', 'meatballs', 'sushi'], 'the limit does not exist');
     const deck = new Deck([cardOne, cardTwo, cardThree]);
     const round = new Round(deck);
 
-    round.takeTurn('pink');
-
-    expect(round.incorrectAnswers).to.equal(['pink']);
+    expect(round.takeTurn('pink')).to.equal('incorrect!');
   });
 
-  it('should provide feedback for incorrect guesses', fucntion() {
+  it('should provide feedback for correct guesses', function() {
     const cardOne = new Card(1,'What is Casey\'s favorite color?', ['blue', 'pink', 'orange'], 'orange');
     const cardTwo = new Card(2, 'What is Casey\'s favorite season?', ['winter', 'summer', 'autumn'], 'autumn');
     const cardThree = new Card(3, 'What is Casey\'s favorite food?', ['the limit does not exist', 'meatballs', 'sushi'], 'the limit does not exist');
     const deck = new Deck([cardOne, cardTwo, cardThree]);
     const round = new Round(deck);
 
-    round.takeTurn('pink');
-
-    expect(round.takeTurn()).to.equal('incorrect!')
+    expect(round.takeTurn('orange')).to.equal('correct!');
   });
 
-  it('should provide feedback for incorrect guesses', fucntion() {
+  it('should update the current card', function() {
+    const cardOne = new Card(1,'What is Casey\'s favorite color?', ['blue', 'pink', 'orange'], 'orange');
+    const cardTwo = new Card(2, 'What is Casey\'s favorite season?', ['winter', 'summer', 'autumn'], 'autumn');
+    const cardThree = new Card(3, 'What is Casey\'s favorite food?', ['the limit does not exist', 'meatballs', 'sushi'], 'the limit does not exist');
+    const deck = new Deck([cardOne, cardTwo, cardThree]);
+    const round = new Round(deck);
+
+    round.takeTurn();
+
+    expect(round.deck[0]).to.equal(cardTwo);
+  });
+
+  it('should calculate the percentage of correct guesses', function() {
     const cardOne = new Card(1,'What is Casey\'s favorite color?', ['blue', 'pink', 'orange'], 'orange');
     const cardTwo = new Card(2, 'What is Casey\'s favorite season?', ['winter', 'summer', 'autumn'], 'autumn');
     const cardThree = new Card(3, 'What is Casey\'s favorite food?', ['the limit does not exist', 'meatballs', 'sushi'], 'the limit does not exist');
@@ -117,16 +135,6 @@ describe('Round', function() {
 
     round.takeTurn('orange');
 
-    expect(round.takeTurn()).to.equal('correct!')
-  });
-
-  it('should calculate the percentage of correct guesses', fucntion() {
-    const cardOne = new Card(1,'What is Casey\'s favorite color?', ['blue', 'pink', 'orange'], 'orange');
-    const cardTwo = new Card(2, 'What is Casey\'s favorite season?', ['winter', 'summer', 'autumn'], 'autumn');
-    const cardThree = new Card(3, 'What is Casey\'s favorite food?', ['the limit does not exist', 'meatballs', 'sushi'], 'the limit does not exist');
-    const deck = new Deck([cardOne, cardTwo, cardThree]);
-    const round = new Round(deck);
-
-    expect(round.calculatePercentCorrect()).to.equal(0);
+    expect(round.calculatePercentCorrect()).to.equal(100);
   });
 });
