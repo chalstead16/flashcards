@@ -34,7 +34,7 @@ describe('Round', function() {
     const deck = new Deck([cardOne, cardTwo, cardThree]);
     const round = new Round(deck);
 
-    expect(round.turns).to.equal(1);
+    expect(round.turns).to.equal(0);
   });
 
   it('should have a way to return the current card', function() {
@@ -47,15 +47,32 @@ describe('Round', function() {
     expect(round.returnCurrentCard()).to.equal(round.deck[0]);
   });
 
-  it('should have a way to update turn', function() {
+  it('should create a new turn instance when a guess is made' function() {
+    const cardOne = new Card(1,'What is Casey\'s favorite color?', ['blue', 'pink', 'orange'], 'orange');
+    const cardTwo = new Card(2, 'What is Casey\'s favorite season?', ['winter', 'summer', 'autumn'], 'autumn');
+    const cardThree = new Card(3, 'What is Casey\'s favorite food?', ['the limit does not exist', 'meatballs', 'sushi'], 'the limit does not exist');
+    const deck = new Deck([cardOne, cardTwo, cardThree]);
+    const round = new Round(deck);
+    const turn = new Turn('pink', round.deck.cards[0])
+
+    round.takeTurn('pink');
+
+    expect(round.currentTurn)to.equal(Turn);
+  });
+
+  it('should have a way to update turn regardless if the guess is correct or incorrect', function() {
     const cardOne = new Card(1,'What is Casey\'s favorite color?', ['blue', 'pink', 'orange'], 'orange');
     const cardTwo = new Card(2, 'What is Casey\'s favorite season?', ['winter', 'summer', 'autumn'], 'autumn');
     const cardThree = new Card(3, 'What is Casey\'s favorite food?', ['the limit does not exist', 'meatballs', 'sushi'], 'the limit does not exist');
     const deck = new Deck([cardOne, cardTwo, cardThree]);
     const round = new Round(deck);
 
-    round.takeTurn();
+    round.takeTurn('pink');
 
     expect(round.turns).to.equal(1);
   });
+
+  //it('should update the current card when a guess is made', function() {
+  //
+  // })
 });
