@@ -47,11 +47,15 @@ describe('Round', function() {
     expect(round.returnCurrentCard()).to.equal(round.deck[0]);
   });
 
-  // it('should have a way to update turn', function() {
-  //   const cardOne = new Card(1,'What is Casey\'s favorite color?', ['blue', 'pink', 'orange'], 'orange');
-  //   const cardTwo = new Card(2, 'What is Casey\'s favorite season?', ['winter', 'summer', 'autumn'], 'autumn');
-  //   const cardThree = new Card(3, 'What is Casey\'s favorite food?', ['the limit does not exist', 'meatballs', 'sushi'], 'the limit does not exist');
-  //   const deck = new Deck([cardOne, cardTwo, cardThree]);
-  //   const round = new Round(deck);
-  // });
+  it('should have a way to update turn', function() {
+    const cardOne = new Card(1,'What is Casey\'s favorite color?', ['blue', 'pink', 'orange'], 'orange');
+    const cardTwo = new Card(2, 'What is Casey\'s favorite season?', ['winter', 'summer', 'autumn'], 'autumn');
+    const cardThree = new Card(3, 'What is Casey\'s favorite food?', ['the limit does not exist', 'meatballs', 'sushi'], 'the limit does not exist');
+    const deck = new Deck([cardOne, cardTwo, cardThree]);
+    const round = new Round(deck);
+
+    round.takeTurn();
+
+    expect(round.turns).to.equal(1);
+  });
 });
