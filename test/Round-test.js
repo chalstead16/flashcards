@@ -94,5 +94,17 @@ describe('Round', function() {
     round.takeTurn('pink');
 
     expect(round.incorrectAnswers).to.equal(['pink']);
-  })
+  });
+
+  it('should provide feedback for incorrect guesses', fucntion() {
+    const cardOne = new Card(1,'What is Casey\'s favorite color?', ['blue', 'pink', 'orange'], 'orange');
+    const cardTwo = new Card(2, 'What is Casey\'s favorite season?', ['winter', 'summer', 'autumn'], 'autumn');
+    const cardThree = new Card(3, 'What is Casey\'s favorite food?', ['the limit does not exist', 'meatballs', 'sushi'], 'the limit does not exist');
+    const deck = new Deck([cardOne, cardTwo, cardThree]);
+    const round = new Round(deck);
+
+    round.takeTurn('pink');
+
+    expect(round.takeTurn()).to.equal('incorrect!')
+  });
 });
